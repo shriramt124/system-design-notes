@@ -26,22 +26,6 @@ const generateGameLink = () => {
   return Math.random().toString(36).substring(2, 15);
 };
 
-const checkWinner = (board: (string | null)[]) => {
-  const lines = [
-    [0, 1, 2], [3, 4, 5], [6, 7, 8],
-    [0, 3, 6], [1, 4, 7], [2, 5, 8],
-    [0, 4, 8], [2, 4, 6],
-  ];
-
-  for (let line of lines) {
-    const [a, b, c] = line;
-    if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-      return { winner: board[a], winningLine: line };
-    }
-  }
-
-  return { winner: null, winningLine: null };
-};
 
 export default function Home() {
   const [board, setBoard] = useState<(string | null)[]>(Array(9).fill(null));
@@ -119,9 +103,9 @@ export default function Home() {
   const handleCellClick = (index: number) => {
     if (board[index] || winner || isDraw || !playerSymbol) return;
 
-    const newBoard = [...board];
-    newBoard[index] = playerSymbol;
-    setBoard(newBoard);
+    // const newBoard = [...board];
+    // newBoard[index] = playerSymbol;
+    // setBoard(newBoard);
 
     socket.emit('makeMove', gameLink, index, playerSymbol);
   };
@@ -175,4 +159,3 @@ export default function Home() {
     </main>
   );
 }
-
