@@ -1,9 +1,9 @@
-
 "use client";
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { io } from 'socket.io-client';
 import { Button } from "@/components/ui/button"
+import { useSearchParams } from 'next/navigation';
 
 const BoardCell = ({ value, onClick, isWinningCell }: { value: string | null, onClick: () => void, isWinningCell: boolean }) => {
   const cellStyle = `
@@ -54,6 +54,17 @@ export default function Home() {
   const [gameId, setGameId] = useState<string | null>(null);
   const [message, setMessage] = useState<string>("");
   const [playerSymbol, setPlayerSymbol] = useState<'X' | 'O' | null>(null);
+
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const queryGameId = searchParams.get('gameId');
+    if (queryGameId) {
+      setGameId(queryGameId);
+      setGameLink(queryGameId);
+    }
+  }, [searchParams]);
+
 
   useEffect(() => {
     if (gameLink) {
@@ -164,3 +175,4 @@ export default function Home() {
     </main>
   );
 }
+

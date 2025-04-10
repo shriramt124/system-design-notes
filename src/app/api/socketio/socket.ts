@@ -26,6 +26,10 @@ export default function handler(req: SocketWithIO, res: any) {
   const io = new ServerIO(req.socket, {
     path: "/api/socketio",
     addTrailingSlash: false,
+    cors: {
+      origin: '*',
+      methods: ["GET", "POST"]
+    }
   });
 
   req.socket.io = io;
@@ -81,3 +85,4 @@ export default function handler(req: SocketWithIO, res: any) {
 
   res.end();
 }
+
